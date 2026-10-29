@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GhostLock-XRING O1</string>
+    <string name="app_subtitle">玄戒 O1 内核加载器 · 酷安@ayyya</string>
+    <string name="ksu_version_notice">仅限 KernelSU 32525 / ReSukiSU 4.1.0</string>
+    <string name="status_idle">就绪</string>
+    <string name="status_running">执行中</string>
+    <string name="status_success">已完成</string>
+    <string name="status_failed">已停止</string>
+    <string name="action_run">开始执行</string>
+    <string name="action_running">正在执行</string>
+    <string name="action_copy">复制日志</string>
+    <string name="copied">日志已复制</string>
+    <string name="log_title">执行日志</string>
+    <string name="device_label">设备</string>
+    <string name="kernel_label">内核</string>
+    <string name="kernel_supported">配置已匹配</string>
+    <string name="kernel_unsupported">内核不受支持</string>
+    <string name="support_label">内核配置</string>
+    <string name="root_implementation_label">Root 实现方式</string>
+    <string name="root_kernelsu">KernelSU</string>
+    <string name="root_resukisu">ReSukiSU</string>
+    <string name="action_install_manager">点我安装对应管理器</string>
+    <string name="allow_manager_install">请允许此应用安装未知应用，然后再次点击安装按钮</string>
+    <string name="manager_install_failed">无法打开管理器安装界面</string>
+</resources>

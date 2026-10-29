@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GhostLock-XRING O1</string>
+    <string name="app_subtitle">XRING O1 kernel loader · 酷安@ayyya</string>
+    <string name="ksu_version_notice">KernelSU 32525 / ReSukiSU 4.1.0</string>
+    <string name="status_idle">Ready</string>
+    <string name="status_running">Running</string>
+    <string name="status_success">Complete</string>
+    <string name="status_failed">Stopped</string>
+    <string name="action_run">Start</string>
+    <string name="action_running">Running</string>
+    <string name="action_copy">Copy log</string>
+    <string name="copied">Log copied</string>
+    <string name="log_title">Execution log</string>
+    <string name="device_label">Device</string>
+    <string name="kernel_label">Kernel</string>
+    <string name="kernel_supported">Profile matched</string>
+    <string name="kernel_unsupported">Unsupported kernel</string>
+    <string name="support_label">Kernel profile</string>
+    <string name="root_implementation_label">Root implementation</string>
+    <string name="root_kernelsu">KernelSU</string>
+    <string name="root_resukisu">ReSukiSU</string>
+    <string name="action_install_manager">Install selected manager</string>
+    <string name="allow_manager_install">Allow installs from this app, then tap the install button again</string>
+    <string name="manager_install_failed">Unable to open manager installer</string>
+</resources>

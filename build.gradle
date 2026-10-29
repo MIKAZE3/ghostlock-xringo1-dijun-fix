@@ -1,0 +1,37 @@
+plugins {
+    id 'com.android.application' version '9.3.1' apply false
+}
+
+tasks.register('buildGhostlockNative', Exec) {
+    workingDir rootDir
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine 'cmd', '/c', 'build-native.cmd'
+    } else {
+        commandLine 'make', 'ghostlock'
+    }
+    inputs.files(
+        fileTree('src') { include '**/*.c', '**/*.h' },
+        file('Makefile'),
+        file('native-build.rsp'),
+        file('build-native.cmd')
+    )
+    outputs.file(file('ghostlock'))
+}
+
+tasks.register('prepareGhostlockJniLibs', Copy) {
+    // The shipped APK uses the known-good multi-kernel GhostLock binary
+    // (118672 bytes, sha256 E76F74F2...) that already lives in
+    // app/src/main/jniLibs/arm64-v8a/libghostlock.so.
+    //
+    // PATHA-KEEP-E76F: do NOT rebuild from src/ and overwrite it. The in-tree
+    // C sources compile to a different, narrower binary (116376 bytes, sha256
+    // C9AF1F1D..., only 2 kernel profiles). Set -Pghostlock.native=true to
+    // opt back into building from source.
+    if (!project.hasProperty('ghostlock.native')) {
+        enabled = false
+    } else {
+        from('ghostlock')
+        into('app/src/main/jniLibs/arm64-v8a')
+        rename { 'libghostlock.so' }
+    }
+}
