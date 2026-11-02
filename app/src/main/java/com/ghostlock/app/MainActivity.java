@@ -785,7 +785,7 @@ public class MainActivity extends Activity {
             return null;
         }
         if (line.equals("酷安@ayyya")) {
-            return "[+] 酷安@ayyya";
+            return "[+] 酷安@ayyya | GitHub@MIKAZE3";
         }
         if (line.startsWith("错误：")) {
             return "[!] " + line.substring(3).trim();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GhostLock-XRING O1</string>
-    <string name="app_subtitle">XRING O1 kernel loader · 酷安@ayyya</string>
+    <string name="app_subtitle">XRING O1 kernel loader · 酷安@ayyya | GitHub@MIKAZE3</string>
     <string name="ksu_version_notice">KernelSU 32525 / ReSukiSU 4.1.0</string>
     <string name="status_idle">Ready</string>
     <string name="status_running">Running</string>

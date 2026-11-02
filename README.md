@@ -27,11 +27,55 @@ KernelSU 模块 `Live`，SELinux 恢复 `Enforcing`，全程未重启（boot_id 
 | 项目 | 值 |
 |---|---|
 | 机型 | Xiaomi 15S Pro（`25042PN24C` / `dijun`） |
-| 内核 | `6.6.77-android15-8-g5770c661275f-abogki443185593-4k` |
-| 系统 | HyperOS 3.0.302.0.WODCNXM / Android 16 |
+| 内核 A | `6.6.77-android15-8-g5770c661275f-abogki443185593-4k`（OS 3.0.302.0，**实测 root 成功**） |
+| 内核 B | `6.6.118-android15-8-gc44b714366cc-abogki519650608-4k`（OS 3.0.304.0，偏移已静态验证） |
+| 系统 | HyperOS 3.0.302.0 / 3.0.304.0，Android 16 |
 | Root 方式 | KernelSU `late-load`（临时，重启失效） |
 
-> 6.6.118 配置未改动，保持上游行为。其他机型/内核未验证。
+两个内核条目都内置在同一个二进制里，按 `uname -r` 自动选择。
+
+> 6.6.118 条目的 14 个符号偏移已用 OS 3.0.304.0 官方固件的内核逐项核对（见下文
+> 「6.6.118 适配」），但尚未在真机上跑过 root。其他机型/内核未验证。
+
+---
+
+## 6.6.118 适配（OS 3.0.304.0）
+
+2026-09-21 构建的 OS 3.0.304.0 把内核从 6.6.77 换成了 6.6.118。
+已从官方 `boot.img` 提取内核并验证：
+
+**1. 漏洞未修复。** `remove_waiter()` 前后两版逐指令对比：
+
+| 项目 | 结果 |
+|---|---|
+| 指令总数 | 72 vs 72（完全相同） |
+| 差异项 | 7 处，全部是 `bl` 相对跳转偏移 |
+| 寄存器分配 | x19/x20/x21/x23/x24/x25 一致 |
+| 内存偏移 | `#0x10` / `#0x58` / `#0x90c` / `#0x938` 一致 |
+
+即函数体逻辑零改动，只是重编译导致地址平移。
+
+**2. 偏移全部对上。** 从新内核 kallsyms（110,240 个符号）提取的 14 个关键符号，
+与源码 `6.6.118/offsets.h` 逐项一致：
+
+```
+init_task              0x0213E2C0   init_cred          0x02150788
+root_task_group        0x02338980   selinux_enforcing  0x0237A378
+selinux_blob_sizes     0x01686E30   security_hook_heads 0x016866F8
+kmalloc_caches         0x01686238   anon_pipe_buf_ops  0x01176BC8
+ashmem_fops            0x012F7980   configfs_read_iter 0x00492060
+configfs_bin_write_iter 0x0049258C  copy_splice_read   0x00415C88
+noop_llseek            0x003C8A28   nfulnl_logger      0x02132278
+```
+
+字节级复核：`init_task @ 0x0213E2C0` 处 `pid=0`、`comm="swapper"`，
+其 `cred` 指针 = `0xFFFFFFC082150788` = `0xffffffc080000000 + 0x02150788`；
+`init_cred @ 0x02150788` 处 `uid=0`、`cap_effective=0x1FFFFFFFFFF`。
+
+**3. `pselect_waiter_shift` 上游本就填了 `-2`**，与本文档推导的结论一致，
+所以 6.6.118 条目无需修改。
+
+分析工具：`tools/kallsyms_extract.py`（可对任意同构内核镜像复用）。
 
 ---
 
@@ -187,7 +231,8 @@ adb bugreport <输出目录>
 
 本项目沿用上游 **Apache License 2.0**（见 `LICENSE`）。
 
-- 上游：[ayyy7128/ghostlock-xringo1](https://github.com/ayyy7128/ghostlock-xringo1)
+- 原作者：**酷安 @ayyya** — [ayyy7128/ghostlock-xringo1](https://github.com/ayyy7128/ghostlock-xringo1)
+- 本 fork 维护：**GitHub @MIKAZE3** — [MIKAZE3/ghostlock-xringo1-dijun-fix](https://github.com/MIKAZE3/ghostlock-xringo1-dijun-fix)
 - 参考：[RecRivenVI/ghostlock-app](https://github.com/RecRivenVI/ghostlock-app)、
   [YuKongA/ghostlock-app](https://github.com/YuKongA/ghostlock-app)
 - 漏洞：CVE-2026-43499（`rtmutex: Use waiter::task instead of current in remove_waiter()`）
