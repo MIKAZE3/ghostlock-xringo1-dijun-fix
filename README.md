@@ -3,7 +3,14 @@
 > 基于 [ayyy7128/ghostlock-xringo1](https://github.com/ayyy7128/ghostlock-xringo1) 的 fork，
 > 修复了小米 15S Pro（玄戒 O1 / `dijun` / `25042PN24C`）上无法提权的两处缺陷。
 
-**实测结果：root 成功。** `su -c id` → `uid=0(root) gid=0(root) context=u:r:ksu:s0`，
+**实测结果：两个内核版本都 root 成功。**
+
+| 内核 | 系统 | 结果 |
+|---|---|---|
+| `6.6.77-android15-8-g5770c661275f-abogki443185593-4k` | OS 3.0.302.0 | ✅ `uid=0(root)` |
+| `6.6.118-android15-8-gc44b714366cc-abogki519650608-4k` | OS 3.0.304.0 | ✅ `uid=0(root)` |
+
+`su -c id` → `uid=0(root) gid=0(root) context=u:r:ksu:s0`，
 KernelSU 模块 `Live`，SELinux 恢复 `Enforcing`，全程未重启（boot_id 不变）。
 
 ---
@@ -28,14 +35,15 @@ KernelSU 模块 `Live`，SELinux 恢复 `Enforcing`，全程未重启（boot_id 
 |---|---|
 | 机型 | Xiaomi 15S Pro（`25042PN24C` / `dijun`） |
 | 内核 A | `6.6.77-android15-8-g5770c661275f-abogki443185593-4k`（OS 3.0.302.0，**实测 root 成功**） |
-| 内核 B | `6.6.118-android15-8-gc44b714366cc-abogki519650608-4k`（OS 3.0.304.0，偏移已静态验证） |
+| 内核 B | `6.6.118-android15-8-gc44b714366cc-abogki519650608-4k`（OS 3.0.304.0，**实测 root 成功**） |
 | 系统 | HyperOS 3.0.302.0 / 3.0.304.0，Android 16 |
 | Root 方式 | KernelSU `late-load`（临时，重启失效） |
 
 两个内核条目都内置在同一个二进制里，按 `uname -r` 自动选择。
 
-> 6.6.118 条目的 14 个符号偏移已用 OS 3.0.304.0 官方固件的内核逐项核对（见下文
-> 「6.6.118 适配」），但尚未在真机上跑过 root。其他机型/内核未验证。
+> 6.6.118 条目：14 个符号偏移已用 OS 3.0.304.0 官方固件的内核逐项核对，
+> 并在真机上完成 root（日志见 `artifacts/success-66118.log`）。
+> 其他机型/内核未验证。
 
 ---
 
@@ -72,8 +80,35 @@ noop_llseek            0x003C8A28   nfulnl_logger      0x02132278
 其 `cred` 指针 = `0xFFFFFFC082150788` = `0xffffffc080000000 + 0x02150788`；
 `init_cred @ 0x02150788` 处 `uid=0`、`cap_effective=0x1FFFFFFFFFF`。
 
-**3. `pselect_waiter_shift` 上游本就填了 `-2`**，与本文档推导的结论一致，
-所以 6.6.118 条目无需修改。
+**3. `pselect_waiter_shift` 上游本就填了 `-2`**，与我反汇编两条系统调用链的
+帧尺寸累加结果一致，所以 6.6.118 条目无需修改。
+
+**4. 真机验证通过。** 升级到 OS 3.0.304.0 后实测：
+
+```
+[+] offsets matched: 6.6.118-android15-8-gc44b714366cc-abogki519650608-4k
+[*] init_cred image=ffffffc082150788 alias=ffffff8002350788
+[*] pselect route setup attempt=1 simple=0 shift=-2 ...
+[*] pselect post-select +204ms ret=8
+[+] SELinux permissive
+[*] child uid = 0
+[+] child is root!
+[+] child seccomp fully bypassed (forked modules run filter-free)
+[+] KernelSU module loaded
+[+] KernelSU ready; SELinux enforcing restored
+[+] exit code=0
+```
+
+耗时约 19 秒，boot_id 全程不变。完整日志见 `artifacts/success-66118.log`。
+
+**关于 6.6.118 的栈布局**（反汇编 `E:\...\dijun-Image-v304`）：
+
+| 链路 | 帧尺寸 | 内部偏移 | 绝对位置 |
+|---|---|---|---|
+| futex | `__arm64_sys_futex −0x70` → `do_futex −0x60` → `futex_wait_requeue_pi −0x1c0` | waiter @ `sp+0x90` | `S₀ − 0x200` |
+| pselect | `__arm64_sys_pselect6 −0x90` → `core_sys_select −0x1f0` | stack_fds @ `sp+0x80` | `S₀ − 0x200` |
+
+两者重合 ⇒ `8×(shift+2)=0` ⇒ `shift = −2`，与 6.6.77 的推导结果相同。
 
 分析工具：`tools/kallsyms_extract.py`（可对任意同构内核镜像复用）。
 
